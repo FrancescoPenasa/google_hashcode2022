@@ -34,4 +34,36 @@ for i in range(0,n_projects):
 
         n_roles-=1
 
-print(projects)
+projects_keys = list(projects)
+contributors_keys = list(contributors)
+
+tmp_f = open("C:/Users/zerbi/Desktop/google_hashcode2022/result.txt", "w")
+projects_count = 0
+
+for i in range(0,len(projects_keys)):
+    roles = projects[projects_keys[i]]["roles"]
+
+    final_contributors = []
+
+    for j in range(0,len(roles)-1,2):
+        skill_name = roles[j]
+        skill_level = roles[j+1]
+
+        for contributor_name in contributors_keys:
+            if skill_name in contributors[contributor_name].keys():
+                if contributors[contributor_name][skill_name] >= skill_level:
+                    final_contributors.append(contributor_name)
+
+    if len(final_contributors) > 0:
+        projects_count += 1
+        tmp_f.write(projects_keys[i]+"\n")
+        for name in final_contributors:
+            tmp_f.write(name+" ")
+        tmp_f.write("\n")
+
+tmp_f = open("C:/Users/zerbi/Desktop/google_hashcode2022/result.txt", "r")
+tmp_oldfile = tmp_f.read()
+
+tmp_f = open("C:/Users/zerbi/Desktop/google_hashcode2022/result.txt", "w")
+tmp_f.write(str(projects_count)+"\n")
+tmp_f.write(tmp_oldfile)
